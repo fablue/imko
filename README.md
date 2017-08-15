@@ -36,3 +36,6 @@ Or alternatively, written in a more compact way
 ```kotlin
 val version2 = object1{ object2{ int2{ times(2) } } }
 ```
+
+### Usage
+I will explain how to use imko by using the AliG example [https://github.com/fablue/imko/blob/master/example/src/ImkoExample.kt]
