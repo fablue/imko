@@ -113,3 +113,90 @@ class Engine(cylinders: Int) : Immutable<Engine>() {
     val tuningKit = ivar<TuningKit?>(null)
 }
 ```
+
+
+### Creating different versions of a car
+We add a little function telling us the power of the car into car 
+```kotlin
+    fun power(): Int {
+        val cylinders = engine().cylinders()
+        val baselinePower = engine().baselinePower()
+        val tuningBoost = engine().tuningKit()?.boostPerCylinder?.get() ?: 0
+        return cylinders * (baselinePower + tuningBoost)
+    }
+```
+______
+Start by using a car with model number 1
+```kotlin
+    val firstCar = Car(modelNumber = 1)
+    print(firstCar.power())     //Our first car has 150 ps!   //150
+    print(firstCar.color())     // And it is blue!            //java.awt.Color[r=0,g=0,b=255]
+```
+It obviously has 150 ps and is blue!
+
+_______
+So lets create a yellow version of the car!
+```kotlin
+    //lets get a yellow version of the car
+    val yellowCar = firstCar.color { Color.YELLOW }
+
+    // Now we have two nearly identical cars: One blue, One yellow.
+    // Color of the first car: java.awt.Color[r=0,g=0,b=255] ; second car: java.awt.Color[r=255,g=255,b=0]
+    print("Color of the first car: ${firstCar.color()} ; second car: ${yellowCar.color()}")
+
+```
+ You can see, that we created a new version of the car sharing all attributes with the old version except, that it is yellow now! We used the invoke operator to create this version
+________
+Let's get a tuned version of our yellow car to demonstrated how nested immutablity can be handled!
+
+```kotlin
+    //Lets tune the yellow car!
+    val tunedYellowCar = yellowCar {
+        engine {
+            tuningKit {
+                TuningKit(15)
+            }
+        }
+    }
+    
+    
+    // We now have a tuned version of our yellow car!
+    // Power: yellow car: 150 ;  tuned version: 240
+    print("Power: yellow car: ${yellowCar.power()} ;  tuned version: ${tunedYellowCar.power()}")
+```
+
+Pretty nice, hmm? :relaxed: 
+
+You are free to write it even in a very compact way: 
+
+```kotlin
+    tunedYellowCar = yellowCar { engine { tuningKit { TuningKit(boost = 15) } } }
+```
+
+__________
+Now lets get crazy and even mutate the tuningKit to get a new version of the car and explore another need feature. 
+Say we ant to create a monster version of our car by multiplying the number of cylinders with the current boost per cylinder. 
+
+```kotlin
+    //But now we want to get professional with our yellow car. We want to further tune it, but instead
+    //Of simply defining another boost we want to multiply the current boost with the count of cylinders
+
+    val monsterCar = tunedYellowCar {
+        engine {
+            tuningKit {
+                this?.boostPerCylinder?.mutate {
+                    // You have access to the number of cylinders here.
+                    // This is extremely cool, because it is part of the engine
+                    // but technically not part of the tuning kit
+                    cylinders() * this
+                }
+            }
+        }
+    }
+
+    // It worked! We have a monster version of our car!..: AliG would be proud of his yellow monster
+    //Power: tuned car: 240 ;  monser version: 690
+    print("Power: tuned car: ${tunedYellowCar.power()} ;  monser version: ${monsterCar.power()}")
+```
+
+As you can see: You have access of the cylinders() attribute of the engine when mutating the tuningKit. 
