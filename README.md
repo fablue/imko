@@ -37,6 +37,28 @@ Or alternatively, written in a more compact way
 val version2 = object1{ object2{ int2{ times(2) } } }
 ```
 
+### Setup
+#### gradle
+```
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+```
+dependencies {
+	        compile 'com.github.fablue:imko:1.0-alpha.1'
+	}
+
+```
+
+#### Other dependency managers
+https://jitpack.io/#fablue/imko/1.0-alpha.1
+
+
 ### Usage
 I will explain how to use imko by using the [AliG example](https://github.com/fablue/imko/blob/master/example/src/ImkoExample.kt). 
 
