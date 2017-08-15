@@ -37,6 +37,9 @@ Or alternatively, written in a more compact way
 val version2 = object1{ object2{ int2{ times(2) } } }
 ```
 
+------------
+____________
+
 ### Setup
 #### gradle
 ```
@@ -57,6 +60,11 @@ dependencies {
 
 #### Other dependency managers
 https://jitpack.io/#fablue/imko/1.0-alpha.1
+
+
+
+------------
+____________
 
 
 ### Usage
@@ -136,6 +144,9 @@ class Engine(cylinders: Int) : Immutable<Engine>() {
 }
 ```
 
+
+------------
+____________
 
 ### Creating different versions of a car
 We add a little function telling us the power of the car into car 
