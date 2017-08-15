@@ -100,6 +100,7 @@ fun aliG() {
         }
     }
 
+
     // We now have a tuned version of our yellow car!
     // Power: yellow car: 150 ;  tuned version: 240
     print("Power: yellow car: ${yellowCar.power()} ;  tuned version: ${tunedYellowCar.power()}")
@@ -108,9 +109,9 @@ fun aliG() {
     //But now we want to get professional with our yellow car. We want to further tune it, but instead
     //Of simply defining another boost we want to multiply the current boost with the count of cylinders
 
-    val monsterCar = tunedYellowCar{
+    val monsterCar = tunedYellowCar {
         engine {
-            tuningKit{
+            tuningKit {
                 this?.boostPerCylinder?.mutate {
                     // You have access to the number of cylinders here.
                     // This is extremely cool, because it is part of the engine
@@ -134,3 +135,4 @@ fun print(a: Any) {
 fun main(args: Array<String>) {
     aliG()
 }
+
