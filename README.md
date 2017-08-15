@@ -1,7 +1,7 @@
 # imko
 ## Immutable Kotlin Objects
 ### What is imko?
-Imko lets you define truly immutable objects in kotlin in a very efficient way and intuitive syntax. It also solves the problem of "nested immutability". Meaning the problem of your immutable object containing multiple other non trivial objects.
+Imko lets you define truly immutable objects in Kotlin in a very efficient way and intuitive syntax. It also solves the problem of "nested immutability". Meaning the problem of your immutable object containing multiple other non-trivial objects.
 
 ```
 Object 1
@@ -41,17 +41,17 @@ val version2 = object1{ object2{ int2{ times(2) } } }
 I will explain how to use imko by using the [AliG example](https://github.com/fablue/imko/blob/master/example/src/ImkoExample.kt). 
 
 #### Creating an immutable object
-Lets build an immutable definition of a car with varias properties!
-This is very similar to defining plain old kotlin objects. Start a class wich extends from Immutable
+Let's build an immutable definition of a car with various properties!
+This is very similar to defining plain old Kotlin objects. Start a class which extends from Immutable
 
 ```kotlin
 class Car : Immutable<Car>(){
 }
 ```
 
-The first thing to notice here is, that we have pass the actual implementation to the Immutable as type param. There is little to no reason for passing in any other super-type of the implementation. 
+The first thing to notice here is, that we have to pass the actual implementation to the Immutable as type param. There is little to no reason for passing in any other super-type of the implementation. 
 
-Defining variables and values is done by using the ```kotlin ivar()``` and ```kotlin ival()``` functions. Lets assume that our car should have a color and an engine as variables
+Defining variables and values is done by using the ```kotlin ivar()``` and ```kotlin ival()``` functions. Let's assume that our car should have a color and an engine as variables
 
 ```kotlin
 class Car : Immutable<Car>(){
@@ -62,7 +62,7 @@ class Car : Immutable<Car>(){
 
 The second thing we notice here is: All attributes of immutable objects are defined using the ```val``` keyword. You can see here, that the syntax is very similar to creating poko's. 
 
-So lets say we want to have a model number which cannot be changed at all and is passed to the object using a constructor
+So let's say we want to have a model number which cannot be changed at all and is passed to the object using a constructor
 
 ```kotlin
 class Car(modelNumber: Long) : Immutable<Car>() {
@@ -81,7 +81,7 @@ class Car(modelNumber: Long) : Immutable<Car>() {
 
 This is pretty straight forward as well. The third thing to notice: Providing an empty constructor is essential to make sure that the system can instantiate a new car for you. Don't worry the -1 does not appear in any mutations :relaxed:
 
-Lets create an Engine and a TuningKit definition in a similar fashion:
+Let's create an Engine and a TuningKit definition in a similar fashion:
 
 ```kotlin
 class TuningKit(boost: Int) : Immutable<TuningKit>() {
@@ -129,13 +129,13 @@ ______
 Start by using a car with model number 1
 ```kotlin
     val firstCar = Car(modelNumber = 1)
-    print(firstCar.power())     //Our first car has 150 ps!   //150
+    print(firstCar.power())     //Our first car has 150 ps!   //150
     print(firstCar.color())     // And it is blue!            //java.awt.Color[r=0,g=0,b=255]
 ```
 It obviously has 150 ps and is blue!
 
 _______
-So lets create a yellow version of the car!
+So let's create a yellow version of the car!
 ```kotlin
     //lets get a yellow version of the car
     val yellowCar = firstCar.color { Color.YELLOW }
@@ -147,7 +147,7 @@ So lets create a yellow version of the car!
 ```
  You can see, that we created a new version of the car sharing all attributes with the old version except, that it is yellow now! We used the invoke operator to create this version
 ________
-Let's get a tuned version of our yellow car to demonstrated how nested immutablity can be handled!
+Let's get a tuned version of our yellow car to demonstrated how nested immutability can be handled!
 
 ```kotlin
     //Lets tune the yellow car!
@@ -174,8 +174,8 @@ You are free to write it even in a very compact way:
 ```
 
 __________
-Now lets get crazy and even mutate the tuningKit to get a new version of the car and explore another need feature. 
-Say we ant to create a monster version of our car by multiplying the number of cylinders with the current boost per cylinder. 
+Now let's get crazy and even mutate the tuningKit to get a new version of the car and explore another need feature. 
+Say we want to create a monster version of our car by multiplying the number of cylinders with the current boost per cylinder. 
 
 ```kotlin
     //But now we want to get professional with our yellow car. We want to further tune it, but instead
@@ -200,3 +200,4 @@ Say we ant to create a monster version of our car by multiplying the number of c
 ```
 
 As you can see: You have access of the cylinders() attribute of the engine when mutating the tuningKit. 
+
