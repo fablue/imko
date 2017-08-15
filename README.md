@@ -180,7 +180,7 @@ So let's create a yellow version of the car!
 ```
  You can see, that we created a new version of the car sharing all attributes with the old version except, that it is yellow now! We used the invoke operator to create this version
 ________
-Let's get a tuned version of our yellow car to demonstrated how nested immutability can be handled!
+Let's get a tuned version of our yellow car to demonstrate how nested immutability can be handled!
 
 ```kotlin
     //Lets tune the yellow car!
