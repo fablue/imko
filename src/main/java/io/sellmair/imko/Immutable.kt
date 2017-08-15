@@ -41,8 +41,12 @@ abstract class Immutable<O: Immutable<O>> {
     }
 
 
+    @Suppress("UNCHECKED_CAST")
+    operator fun invoke(block: O.() -> O): O = block(this as O)
+
     open inner class Val<out T, out ImmutableType:
     Immutable<*>>(protected val immutable: ImmutableType, protected val index: Int, value: T){
+        private val obj = value
         init {
             immutable.references[index] = value
         }
@@ -56,7 +60,10 @@ abstract class Immutable<O: Immutable<O>> {
     inner class Var<T, out ImmutableType: Immutable<*>>(immutable: ImmutableType, index: Int, value: T) :
             Val<T, ImmutableType>(immutable, index, value) {
 
-        fun set(t: T?): ImmutableType {
+        private var obj = value
+
+        public fun set(t: T): ImmutableType {
+            obj = t
             immutable::class
             val newInstance = immutable::class.createInstance()
             (0 until immutable.references.size)
@@ -66,10 +73,10 @@ abstract class Immutable<O: Immutable<O>> {
             return newInstance
         }
 
-        operator fun invoke(t: T?): ImmutableType = this.set(t)
 
-        operator fun invoke(block: (T) -> T): ImmutableType = this.mutate(block)
-        fun mutate(block: (T)->T): ImmutableType{
+        operator fun invoke(block: T.() -> T): ImmutableType = this.mutate(block)
+
+        fun mutate(block: T.()->T): ImmutableType{
             val originalInstance = this.get()
             val newInstance = block(originalInstance)
             if(originalInstance === newInstance){
